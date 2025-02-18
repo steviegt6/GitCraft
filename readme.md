@@ -1,3 +1,11 @@
+forked for optifine support
+
+sample usage: `./gradlew run --args="--only-version=1.21.4 --optifine=https://optifine.net/downloadx?f=OptiFine_1.21.4_HD_U_J3.jar&x=492d6b5cea98978e01fc9e2c7f09917e"`
+
+provide the url as the argument
+
+delete cached files when running since it won't do anything if you ran the decompiler on a version already (I don't invalidate caches based on optifine args)
+
 # GitCraft-Next
 
 ## License
