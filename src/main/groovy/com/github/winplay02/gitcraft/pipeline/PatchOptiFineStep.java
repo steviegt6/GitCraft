@@ -23,7 +23,7 @@ public class PatchOptiFineStep extends Step {
 		}
 
 		Path clientJarPath = mcVersion.clientJar().resolve(GitCraftPaths.MC_VERSION_STORE.resolve(mcVersion.launcherFriendlyVersionName()));
-		Path optifineJarPath = GitCraft.config.optiFineVersion.resolve(GitCraftPaths.MC_VERSION_STORE.resolve(mcVersion.launcherFriendlyVersionName()));
+		Path optifineJarPath = GitCraft.config.optiFineVersion.path();
 		if (!Files.exists(clientJarPath)) {
 			return StepResult.FAILED;
 		}
@@ -31,7 +31,7 @@ public class PatchOptiFineStep extends Step {
 			return StepResult.FAILED;
 		}
 
-		Path clientPatchedJar = GitCraftPaths.MC_VERSION_STORE.resolve(mcVersion.launcherFriendlyVersionName()).resolve("client-OptiFine_" + GitCraft.config.optiFineVersion.version() + ".jar");
+		Path clientPatchedJar = GitCraftPaths.MC_VERSION_STORE.resolve(mcVersion.launcherFriendlyVersionName()).resolve("client-OptiFine.jar");
 		if (Files.exists(clientPatchedJar)) {
 			mcVersion.setPatchedClientJar(clientPatchedJar);
 			return StepResult.UP_TO_DATE;

@@ -1,6 +1,5 @@
 package com.github.winplay02.gitcraft.pipeline;
 
-import com.github.winplay02.gitcraft.GitCraft;
 import com.github.winplay02.gitcraft.MinecraftVersionGraph;
 import com.github.winplay02.gitcraft.mappings.MappingFlavour;
 import com.github.winplay02.gitcraft.types.OrderedVersion;
@@ -41,13 +40,8 @@ public class FetchArtifactsStep extends Step {
 		Path rootPath = getInternalArtifactPath(mcVersion, mappingFlavour);
 		StepResult clientJar = null;
 		StepResult serverJar = null;
-		StepResult optifineJar = null;
 		if (mcVersion.hasClientCode()) {
 			clientJar = mcVersion.clientJar().fetchArtifact(rootPath, "client jar");
-
-			if (GitCraft.config.optiFineVersion != null) {
-				optifineJar = GitCraft.config.optiFineVersion.fetchArtifact(rootPath);
-			}
 		}
 		if (mcVersion.hasServerCode()) {
 			serverJar = mcVersion.serverJar().fetchArtifact(rootPath, "server jar");
