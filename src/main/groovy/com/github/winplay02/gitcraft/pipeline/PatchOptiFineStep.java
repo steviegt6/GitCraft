@@ -38,7 +38,8 @@ public class PatchOptiFineStep extends Step {
 		}
 
 		// java -cp OptiFine.jar optifine.Patcher client.jar client-patched.jar
-		ProcessBuilder pb = new ProcessBuilder("java", "-cp", optifineJarPath.toString(), "optifine.Patcher", clientJarPath.toString(), clientPatchedJar.toString());
+		ProcessBuilder pb = new ProcessBuilder("java", "-cp", optifineJarPath.toString(), "optifine.Patcher", clientJarPath.toString(), optifineJarPath.toString(), clientPatchedJar.toString());
+		pb.inheritIO();
 		Process p = pb.start();
 		int exitCode = p.waitFor();
 		if (exitCode != 0) {

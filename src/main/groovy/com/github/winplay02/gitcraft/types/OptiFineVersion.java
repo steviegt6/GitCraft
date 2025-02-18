@@ -17,24 +17,19 @@ import java.nio.file.StandardOpenOption;
 
 /**
  * An OptiFine version.
- * @param version The downloadable version string
+ * @param url The URL to download OptiFine from
  */
-public record OptiFineVersion(String version) {
-	/**
-	 * Get the URL to download this version.
-	 * @return The URL to download this version
-	 */
-	public String getUrl() {
-		// http://optifine.net/adloadx?f=OptiFine_1.21.4_HD_U_J3.jar
-		return "https://optifine.net/adloadx?f=OptiFine_" + version + ".jar";
+public record OptiFineVersion(String url) {
+	public String version() {
+		return url.substring(url.indexOf("OptiFine_") + "OptiFine_".length(), url.indexOf(".jar"));
 	}
 
 	public Path resolve(Path containingPath) {
-		return containingPath.resolve("OptiFine_" + version + ".jar");
+		return containingPath.resolve("OptiFine_" + version() + ".jar");
 	}
 
 	public Step.StepResult fetchArtifact(Path containingPath) {
-		String url = getUrl();
+		String url = url();
 		Path targetFile = resolve(containingPath);
 
 		// TODO: Can we checksum this?
@@ -51,7 +46,7 @@ public record OptiFineVersion(String version) {
 		}
 		do {
 			try {
-				MiscHelper.println("Fetching OptiFine JAR %s from: %s", version, url);
+				MiscHelper.println("Fetching OptiFine JAR %s from: %s", version(), url);
 				URLConnection url_connection = new URL(url).openConnection(Proxy.NO_PROXY);
 				url_connection.setUseCaches(false);
 				try (OutputStream file_output = Files.newOutputStream(targetFile, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE)) {
@@ -64,7 +59,7 @@ public record OptiFineVersion(String version) {
 				MiscHelper.println("\u001B[31mFailed to fetch URL (retrying in %sms): %s (%s)\u001B[0m", GitCraft.config.failedFetchRetryInterval, url, e1);
 				MiscHelper.sleep(GitCraft.config.failedFetchRetryInterval);
 			}
-		} while (Files.exists(targetFile));
+		} while (!Files.exists(targetFile));
 		return Step.StepResult.SUCCESS;
 	}
 }
