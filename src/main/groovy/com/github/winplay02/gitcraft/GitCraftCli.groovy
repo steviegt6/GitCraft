@@ -1,6 +1,7 @@
 package com.github.winplay02.gitcraft
 
 import com.github.winplay02.gitcraft.mappings.MappingFlavour
+import com.github.winplay02.gitcraft.types.OptiFineVersion
 import com.github.winplay02.gitcraft.util.MiscHelper
 import groovy.cli.picocli.CliBuilder
 import groovy.cli.picocli.OptionAccessor
@@ -16,6 +17,7 @@ class GitCraftCli {
 		cli_args.setFooter("If you want to decompile versions which are not part of the default minecraft meta, put the JSON files of these versions (e.g. 1_16_combat-0.json) into the \"extra-versions\" directory");
 		cli_args._(longOpt: 'only-version', args: -2 /*CliBuilder.COMMONS_CLI_UNLIMITED_VALUES*/, valueSeparator: ',', argName:
 			'version', 'Specify the only version(s) to decompile. The repository be stored in minecraft-repo-<version>-<version>-.... The normal repository will not be touched. --only-version will take precedence over --min-version.');
+		cli_args._(longOpt: 'optifine', args: 1, argName: 'version', 'Specify the OptiFine version to download and apply to the client.jar.');
 		cli_args._(longOpt: 'min-version', args: 1, argName:
 			'version', 'Specify the min. version to decompile. Each following version will be decompiled afterwards, non-linear versions are still committed to separate branches. The repository will be stored in minecraft-repo-min-<version>. The normal repository will not be touched.');
 		cli_args._(longOpt: 'max-version', args: 1, argName:
@@ -94,6 +96,10 @@ class GitCraftCli {
 		if (cli_args_parsed.hasOption("only-version")) {
 			String[] subjectVersion = cli_args_parsed.'only-versions';
 			config.onlyVersion = subjectVersion;
+		}
+		if (cli_args_parsed.hasOption("optifine")) {
+			String subjectVersion = cli_args_parsed.'optifine';
+			config.optiFineVersion = new OptiFineVersion(subjectVersion);
 		}
 		if (cli_args_parsed.hasOption("min-version")) {
 			String subjectVersion = cli_args_parsed.'min-version';

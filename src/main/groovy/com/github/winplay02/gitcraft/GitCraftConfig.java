@@ -1,11 +1,13 @@
 package com.github.winplay02.gitcraft;
 
 import com.github.winplay02.gitcraft.mappings.MappingFlavour;
+import com.github.winplay02.gitcraft.types.OptiFineVersion;
 import com.github.winplay02.gitcraft.types.OrderedVersion;
 import com.github.winplay02.gitcraft.util.MiscHelper;
 import groovy.lang.Tuple2;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.VersionParsingException;
+import org.eclipse.jgit.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -15,6 +17,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GitCraftConfig {
+
+	/// Forked features for OptiFine support
+	@Nullable
+	public OptiFineVersion optiFineVersion = null;
 
 	/// Additional Data import settings
 	public boolean loadIntegratedDatapack = true;

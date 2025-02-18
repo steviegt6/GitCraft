@@ -7,18 +7,7 @@ import com.github.winplay02.gitcraft.mappings.Mapping;
 import com.github.winplay02.gitcraft.mappings.MojangMappings;
 import com.github.winplay02.gitcraft.mappings.ParchmentMappings;
 import com.github.winplay02.gitcraft.mappings.YarnMappings;
-import com.github.winplay02.gitcraft.pipeline.CommitStep;
-import com.github.winplay02.gitcraft.pipeline.DatagenStep;
-import com.github.winplay02.gitcraft.pipeline.DecompileStep;
-import com.github.winplay02.gitcraft.pipeline.FetchArtifactsStep;
-import com.github.winplay02.gitcraft.pipeline.FetchAssetsStep;
-import com.github.winplay02.gitcraft.pipeline.FetchLibrariesStep;
-import com.github.winplay02.gitcraft.pipeline.MergeStep;
-import com.github.winplay02.gitcraft.pipeline.PrepareMappingsStep;
-import com.github.winplay02.gitcraft.pipeline.RemapStep;
-import com.github.winplay02.gitcraft.pipeline.ResetStep;
-import com.github.winplay02.gitcraft.pipeline.Step;
-import com.github.winplay02.gitcraft.pipeline.UnpickStep;
+import com.github.winplay02.gitcraft.pipeline.*;
 import com.github.winplay02.gitcraft.types.OrderedVersion;
 import com.github.winplay02.gitcraft.util.GitCraftPaths;
 import com.github.winplay02.gitcraft.util.MiscHelper;
@@ -38,6 +27,7 @@ public class GitCraft {
 	/// Every Step
 	public static Step STEP_RESET = null;
 	public static Step STEP_FETCH_ARTIFACTS = null;
+	public static Step STEP_PATCH_OPTIFINE = null;
 	public static Step STEP_FETCH_LIBRARIES = null;
 	public static Step STEP_FETCH_ASSETS = null;
 	public static Step STEP_MERGE = null;
@@ -75,6 +65,7 @@ public class GitCraft {
 			DEFAULT_PIPELINE = new ArrayList<>();
 			DEFAULT_PIPELINE.add(STEP_RESET = new ResetStep());
 			DEFAULT_PIPELINE.add(STEP_FETCH_ARTIFACTS = new FetchArtifactsStep());
+			DEFAULT_PIPELINE.add(STEP_PATCH_OPTIFINE = new PatchOptiFineStep());
 			DEFAULT_PIPELINE.add(STEP_FETCH_LIBRARIES = new FetchLibrariesStep());
 			DEFAULT_PIPELINE.add(STEP_FETCH_ASSETS = new FetchAssetsStep());
 			DEFAULT_PIPELINE.add(STEP_MERGE = new MergeStep());

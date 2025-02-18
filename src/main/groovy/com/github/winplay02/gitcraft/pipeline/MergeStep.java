@@ -56,7 +56,7 @@ public class MergeStep extends Step {
 			MiscHelper.panic("Artifacts (client jar, server jar) for version %s do not exist", mcVersion.launcherFriendlyVersionName());
 		}
 
-		Path client = mcVersion.clientJar().resolve(artifactRootPath);
+		Path client = mcVersion.resolvePotentiallyPatchedClientJar(artifactRootPath);
 		Path server2merge = mcVersion.serverJar().resolve(artifactRootPath);
 		BundleMetadata sbm = BundleMetadata.fromJar(server2merge);
 		if (sbm != null) {

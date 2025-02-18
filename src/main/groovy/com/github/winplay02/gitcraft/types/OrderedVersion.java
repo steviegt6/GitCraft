@@ -7,7 +7,9 @@ import com.github.winplay02.gitcraft.util.MiscHelper;
 import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.VersionParsingException;
+import org.eclipse.jgit.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -32,8 +34,14 @@ public record OrderedVersion(
 		Artifact serverJar,
 		Artifact serverMappings,
 		Set<Artifact> libraries,
-		Artifact assetsIndex
+		Artifact assetsIndex,
+		ExtraData extraData
 ) implements Comparable<OrderedVersion> {
+	public static final class ExtraData
+	{
+		@Nullable
+		public Path patchedClientJar;
+	}
 
 	/*
 	 * For some old Minecraft versions, the download URLs end in the same
@@ -77,7 +85,7 @@ public record OrderedVersion(
 		}
 		String assetsIndexId = versionMeta.id() + "_" + versionMeta.assets();
 		Artifact assetsIndex = new Artifact(versionMeta.assetIndex().url(), assetsIndexId, versionMeta.assetIndex().sha1());
-		return new OrderedVersion(versionMeta, semanticVersion, clientJar, clientMappings, serverJar, serverMappings, libs, assetsIndex);
+		return new OrderedVersion(versionMeta, semanticVersion, clientJar, clientMappings, serverJar, serverMappings, libs, assetsIndex, new ExtraData());
 	}
 
 	public String launcherFriendlyVersionName() {
@@ -159,5 +167,13 @@ public record OrderedVersion(
 			MiscHelper.panicBecause(e, "Could not parse version %s (%s) as semantic version", o.launcherFriendlyVersionName(), o.semanticVersion());
 		}
 		return 0;
+	}
+
+	public void setPatchedClientJar(Path fullPath) {
+		extraData.patchedClientJar = fullPath;
+	}
+
+	public Path resolvePotentiallyPatchedClientJar(Path containingPath) {
+		return extraData.patchedClientJar != null ? extraData.patchedClientJar : clientJar.resolve(containingPath);
 	}
 }
